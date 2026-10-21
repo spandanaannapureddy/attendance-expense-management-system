@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Student</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='edit_student.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>Attendance & Expense Management System</h1>
+    </header>
+
+    <div class="container">
+
+        <aside class="sidebar">
+            <h2>Admin</h2>
+
+            <ul>
+                <li><a href="/admin">Dashboard</a></li>
+                <li><a href="/students">Students</a></li>
+                <li><a href="/attendance">Attendance</a></li>
+                <li><a href="/expenses">Expenses</a></li>
+                <li><a href="/reports">Reports</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </aside>
+
+
+        <main class="content">
+
+            <h2>Edit Student</h2>
+
+            <form action="{{ url_for('update_student_route') }}" method="POST">
+
+                <input type="hidden"
+                       name="student_id"
+                       value="{{ student[1] }}">
+
+                <label>Student Name</label>
+                <input type="text"
+                       name="name"
+                       value="{{ student[2] }}"
+                       required>
+
+
+                <label>Branch</label>
+                <input type="text"
+                       name="branch"
+                       value="{{ student[3] }}"
+                       required>
+
+
+                <label>Year</label>
+                <input type="text"
+                       name="year"
+                       value="{{ student[4] }}"
+                       required>
+
+
+                <label>Semester</label>
+                <input type="text"
+                       name="semester"
+                       value="{{ student[5] }}"
+                       required>
+
+
+                <label>Email</label>
+                <input type="email"
+                       name="email"
+                       value="{{ student[6] }}"
+                       required>
+
+
+                <label>Phone</label>
+                <input type="text"
+                       name="phone"
+                       value="{{ student[7] }}"
+                       required>
+
+
+                <label>Password</label>
+                <input type="text"
+                       name="password"
+                       value="{{ student[8] }}"
+                       required>
+
+
+                <button type="submit" class="update-btn">
+                    Update Student
+                </button>
+
+                <a href="{{ url_for('students') }}" class="cancel-btn">
+                    Cancel
+                </a>
+
+            </form>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

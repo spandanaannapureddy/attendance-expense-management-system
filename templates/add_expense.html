@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add_expense</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='add_expense.css')}}">
+</head>
+<body>
+    <h2>Add New Expense</h2>
+    <form class="expense-form" action="/save_expense" method="POST">
+        <label>Student ID</label>
+        <input type="text" name="student_id" placeholder="Enter Student ID" required>
+        <label>Category</label>
+        <br>
+        <select name="category" required>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Books">Books</option>
+            <option value="Stationery">Stationery</option>
+            <option value="Other">Other</option>
+        </select>
+        <label>Amount</label>
+        <input type="number" name="amount" placeholder="Enter Amount" required>
+        <label>Date</label>
+        <input type="date" name="expense_date" placeholder="Enter Date" required>
+        <button type="submit">Save Expense</button>
+
+    </form>
+    {% include 'notification.html' %}
+</body>
+</html>

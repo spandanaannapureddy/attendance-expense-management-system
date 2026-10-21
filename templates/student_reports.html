@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my reports</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='student_reports.css')}}">
+</head>
+<body>
+    <header>
+        <h1>Attendance & Expense Management System</h1>
+    </header>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Student</h2>
+            <ul>
+                <li><a href="/student_dashboard">Dashboard</a></li>
+                <li><a href="/profile">My Profile</a></li>
+                <li><a href="/my_attendance">My Attendance</a></li>
+                <li><a href="/my_expenses">My Expenses</a></li>
+                <li><a href="/student_reports">Reports</a></li>
+                <li><a href="/student_logout">Logout</a></li>
+            </ul>
+        </aside>
+    <main class="content">
+        <h1>My Reports</h1>
+        <div class="report-card">
+            <h2>Attendance Summary</h2>
+            <p><strong>Total Classes : </strong>{{total_days}}</p>
+            <p><strong>Present : </strong>{{present_days}}</p>
+            <p><strong>Absent : </strong>{{absent_days}}</p>
+            <p><strong>Attendance : </strong>{{attendance_percentage}}%</p>
+
+        </div>
+        <div class="report-card">
+            <h2>Expense Summary</h2>
+            <p><strong>Total Expenses : </strong>{{total_expenses}}</p>
+            <p><strong>Total Transactions : </strong>{{total_transactions}}</p>
+            <p><strong>Highest Transaction : </strong>{{highest_expense}}</p>
+        </div>
+        <button class="download-btn">
+            Download Report
+        </button>
+    </main>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='index.css')}}">
+</head>
+<body>
+    <div class="container">
+        <h1>Attendance & Expense Management System</h1>
+        <p>Select Login Type</p>
+        <div class="buttons">
+            <a href="/login"><button class="admin-btn">Admin Login</button></a>
+            <a href="/student_login"><button class="student-btn">Student Login</button></a>
+
+        </div>
+    </div>
+    {% include 'notification.html' %}
+</body>
+</html>

@@ -1,0 +1,139 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+body{
+    background: #f4f6f9;
+}
+
+.container{
+    display: flex;
+}
+
+.sidebar{
+    width: 220px;
+    height: 100vh;
+    background: #8668e2;
+}
+
+.sidebar{
+    width: 220px;
+    height:100vh;
+    background: #d9e0f4;
+    padding:20px;
+    justify-content: center;
+    position: fixed;
+    margin-top: 25px;
+    
+}
+
+.sidebar h2{
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 30px;
+    color:#1e3a8a ;
+    
+}
+
+.sidebar ul{
+    list-style: none;
+}
+
+.sidebar li{
+    margin: 20px 0;
+}
+
+.sidebar a{
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.sidebar a:hover{
+    background-color: #1e3a8a;
+    color: white;
+}
+
+
+.profile-card{
+    width: 80%;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align: center;
+    margin-left: 220px;
+}
+
+.profile-card img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.profile-card h1{
+    color: #2a4aa3;
+    margin-bottom: 10px;
+}
+
+.profile-card p{
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.profile-table{
+    width: 90%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    margin-left: 20px;
+
+}
+
+.profile-table th,.profile-table td{
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+.profile-table th{
+    background: #4868bf;
+    color: white;
+    width: 35%;
+    text-align: center;
+}
+
+.profile-table td{
+    background: white;
+    text-align: center;
+}
+
+.profile-table tr:nth-child(even){
+    background: #f8f8f8;
+}
+
+.profile-table tr:hover{
+    background: #eef4ff;
+}
+
+.attendance{
+    margin-top: 30px;
+    text-align: center;
+}
+
+.attendance h2{
+    color: #2a4aa3;
+    margin-bottom: 10px;
+}
+
+.attendance p{
+    font-size: 32px;
+    font-weight: bold;
+    color: green;
+}

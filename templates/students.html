@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>students</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='students.css')}}">
+</head>
+<body>
+    <header>
+        <h1>Attendance & Expense Management System</h1>
+    </header>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Admin</h2>
+            <ul>
+                <li><a href="/admin">Dashboard</a></li>
+                <li><a href="/students">Students</a></li>
+                <li><a href="/attendance">Attendance</a></li>
+                <li><a href="/expenses">Expenses</a></li>
+                <li><a href="/reports">Reports</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </aside>
+         <main class="content">
+            <h2>Students Management</h2>
+            <div class="top-bar">
+                <a href="{{url_for('add_student_page')}}"><button class="add-btn">+ Add Student</button></a>
+                <form action="{{ url_for('search_students_route') }}" method="GET">
+                    <input
+                        type="text"
+                        name="keyword"
+                        placeholder="Search by Student ID or Name"
+                        value="{{ keyword|default('') }}"
+                    >
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
+            </div>
+            <table class="student-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Student Name</th>
+                    <th>Branch</th>
+                    <th>Year</th>
+                    <th>Semester</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Password</th>
+                    <th>Actions</th>
+                </tr>
+
+                {% for student in students %}
+                <tr>
+                    <td>{{student[1]}}</td>
+                    <td>{{student[2]}}</td>
+                    <td>{{student[3]}}</td>
+                    <td>{{student[4]}}</td>
+                    <td>{{student[5]}}</td>
+                    <td>{{student[6]}}</td>
+                    <td>{{student[7]}}</td>
+                    <td>{{student[8]}}</td>
+                    <td>
+                        <a href="{{ url_for('edit_student_page', student_id=student[1]) }}"><button class="edit-btn">Edit</button></a>
+                        <a href="{{url_for('delete_student_route',student_id=student[1])}}"><button class="delete-btn">Delete</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </main>
+    </div>
+    {% include 'notification.html' %}
+</body>
+</html>

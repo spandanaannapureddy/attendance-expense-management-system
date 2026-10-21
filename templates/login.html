@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance & Expense Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='notifications.css') }}">
+</head>
+<body>
+
+
+    <div class="login-container">
+         <h1>Attendance & Expense Management System</h1>
+         <form action="/login" method="POST">
+            <div class="input-box">
+            <input  type="text" name="username" placeholder="Enter Username">
+            </div>
+            <br>
+            <div class="input-box">
+            <input type="password" name="password" placeholder="Enter Password">
+            </div>
+            <br>
+            <button type="submit" >Login</button>
+        </form>
+        
+    </div>
+    {% include 'notification.html' %}
+    
+</body>
+</html>

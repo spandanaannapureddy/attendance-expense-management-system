@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin DashBoard</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='adminboard.css')}}">
+</head>
+<body>
+    <header>
+        <h1>Attendance & Expense Management System</h1>
+    </header>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Admin</h2>
+            <ul>
+                <li><a href="/admin">Dashboard</a></li>
+                <li><a href="/students">Students</a></li>
+                <li><a href="/attendance">Attendance</a></li>
+                <li><a href="/expenses">Expenses</a></li>
+                <li><a href="/reports">Reports</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </aside>
+        <main class="content">
+            <h2>Welcome, Admin</h2> 
+            <div class="profile">
+                Admin
+            </div>
+            <p>Manage students, attendance, expenses and reports </p>
+            <input type="text" placeholder="Search Student">
+            <div class="cards">
+                <div class="card">
+                    <h3>Total Students</h3>
+                    <h1>{{total_students}}</h1>
+                </div>
+                 <div class="card">
+                    <h3>Present Today</h3>
+                    <h1>{{total_present}}</h1>
+                </div>
+                 <div class="card">
+                    <h3>Absent Today</h3>
+                    <h1>{{total_absent}}</h1>
+                </div>
+                 <div class="card">
+                    <h3>Total Expenses</h3>
+                    <h1>{{total_expense}}</h1>
+                </div>
+            </div>
+            <h2>Recent Attendance</h2>
+            <table>
+                <tr>
+                    <th>Student Id</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+               {% for record in attendance %}
+                <tr>
+                    <td>{{record[1]}}</td>
+                    <td>{{record[2]}}</td>
+                    <td>{{record[3]}}</td>
+                    <td>{{record[4]}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <h2>Recent Expenses</h2>
+            <table>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+                {% for record in expense %}
+                <tr>
+                    <td>{{record[1]}}</td>
+                    <td>{{record[2]}}</td>
+                    <td>{{record[3]}}</td>
+                    <td>{{record[4]}}</td>
+                    <td>{{record[5]}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </main>
+    </div>
+    <footer>
+        2026 Attendance and Expense Management System
+    </footer>
+    {% include 'notification.html' %}
+</body>
+</html>

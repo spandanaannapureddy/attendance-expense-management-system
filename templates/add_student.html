@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add_student</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='add_student.css')}}">
+</head>
+<body>
+    {% if error %}
+    <p class="error-message">{{ error }}</p>
+    {% endif %}
+    <h2>Add New Student</h2>
+    <form class="student-form" action="/save_student" method="POST">
+        <label>Student ID</label>
+        <input type="text" name="student_id" placeholder="Enter Student ID" required>
+        <label>Name</label>
+        <input type="text" name="name" placeholder="Enter Student name" required>
+        
+       
+        <label for="branch">Branch:</label>
+
+        <select id="branch" name="branch" required>
+            <option value="">Select Branch</option>
+            <option value="CSE">CSE</option>
+            <option value="CSE (AI & ML)">CSE (AI & ML)</option>
+            <option value="CSE (Data Science)">CSE (Data Science)</option>
+            <option value="IT">IT</option>
+            <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+            <option value="Mechanical">Mechanical Engineering</option>
+            <option value="Civil">Civil Engineering</option>
+            <option value="Other">Other</option>
+        </select>
+        
+        <label>Year</label>
+        <select name="year" required>
+            <option value="">Select Year</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3<option>
+            <option>4</option>
+            </select>
+        <label>Semester</label>
+        <select name="semester" required>
+            <option value="">Select Semester</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+        </select>
+        <label>Email</label>
+        <input type="email" name="mail" placeholder="Enter Email" required>
+        <label>Phone Number</label>
+        <input type="text" name="phone" placeholder="Enter Phone Number" required>
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter Password" required>
+        <button type="submit">Save Student</button>
+
+    </form>
+    {% include 'notification.html' %}
+</body>
+</html>

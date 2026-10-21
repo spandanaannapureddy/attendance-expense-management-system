@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Expense</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='edit_expense.css') }}">
+</head>
+<body>
+
+    <div class="edit-container">
+        <h2>Edit Expense</h2>
+
+        <form action="{{ url_for('update_expense_route') }}" method="POST">
+
+            <input type="hidden" name="expense_id" value="{{ record[0] }}">
+
+            <label>Student ID</label>
+            <input type="number" name="student_id" value="{{ record[1] }}" required>
+
+            <label>Category</label>
+            <input type="text" name="category" value="{{ record[2] }}" required>
+
+            <label>Amount (₹)</label>
+            <input type="number" name="amount" step="0.01" value="{{ record[3] }}" required>
+
+            <label>Expense Date</label>
+            <input type="date" name="expense_date" value="{{ record[4] }}" required>
+
+            <button type="submit">Update Expense</button>
+
+        </form>
+
+        <a href="{{ url_for('expenses') }}" class="back-link">Back to Expenses</a>
+    </div>
+
+</body>
+</html>

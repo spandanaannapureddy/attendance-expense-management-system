@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>profileDocument</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='profile.css')}}">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Student</h2>
+            <ul>
+               <li><a href="/student_dashboard">Dashboard</a></li>
+                <li><a href="/profile">My Profile</a></li>
+                <li><a href="/my_attendance">My Attendance</a></li>
+                <li><a href="/my_expenses">My Expenses</a></li>
+                <li><a href="/student_reports">Reports</a></li>
+                <li><a href="/student_logout">Logout</a></li>
+            </ul>
+        </aside>
+    </div>
+    
+    <div class="profile-card">
+        <h1>My Profile</h1>
+        <p>View your personal and academic details.</p>
+        <img src="student.png" alt="Student Photo">
+        <h2>{{student[0]}}</h2>
+        <p>{{student[1]}}</p>
+        <h2>Personal Details</h2>
+        <table class="profile-table">
+            <tr>
+                <th>Name</th>
+                <td>{{student[0]}}</td>
+            </tr>
+            <tr>
+                <th>Roll Number</th>
+                <td>{{student[1]}}</td>
+            </tr>
+            <tr>
+                <th>Branch</th>
+                <td>{{student[2]}}</td>
+            </tr>
+            <tr>
+                <th>Year</th>
+                <td>{{student[3]}}</td>
+            </tr>
+            <tr>
+                <th>Semester</th>
+                <td>{{student[4]}}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{student[5]}}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{student[6]}}</td>
+            </tr>
+        </table>
+        <div class="cards">
+            <div class="card">
+                <h3>Attendance</h3>
+                <h1>{{attendance_percentage}}%</h1>
+             </div>
+            <div class="card">
+                <h3>Total Expenses</h3>
+                <h1>{{total_expenses}}</h1>
+            </div>
+        </div>  
+    </div>
+
+</body>
+</html>

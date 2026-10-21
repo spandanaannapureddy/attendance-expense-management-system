@@ -1,0 +1,64 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+body{
+    background: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container{
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+    width: 450px;
+}
+
+.container h1{
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.container p{
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+button{
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+}
+
+.admin-btn{
+    background: #2a4aa3;
+}
+
+.admin-btn:hover{
+    background: #1e4a8a;
+}
+
+.student-btn{
+    background: #2a4aa3;
+}
+
+.student-btn:hover{
+    background: #1e4a8a;
+}

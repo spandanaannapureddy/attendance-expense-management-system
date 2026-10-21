@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Attendance</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='edit_attendance.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>Attendance & Expense Management System</h1>
+    </header>
+
+    <div class="container">
+
+        <aside class="sidebar">
+            <h2>Admin</h2>
+
+            <ul>
+                <li><a href="/admin">Dashboard</a></li>
+                <li><a href="/students">Students</a></li>
+                <li><a href="/attendance">Attendance</a></li>
+                <li><a href="/expenses">Expenses</a></li>
+                <li><a href="/reports">Reports</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+
+            <h2>Edit Attendance</h2>
+
+            <form action="{{ url_for('update_attendance_route') }}"
+                  method="POST">
+
+                <input type="hidden"
+                       name="attendance_id"
+                       value="{{ record[0] }}">
+
+                <label>Student ID</label>
+                <input type="text"
+                       value="{{ record[1] }}"
+                       readonly>
+
+                <label>Student Name</label>
+                <input type="text"
+                       value="{{ record[2] }}"
+                       readonly>
+
+                <label>Attendance Date</label>
+                <input type="date"
+                       name="attendance_date"
+                       value="{{ record[3] }}"
+                       required>
+
+                <label>Attendance Status</label>
+                <select name="status" required>
+
+                    <option value="Present"
+                        {% if record[4] == 'Present' %}selected{% endif %}>
+                        Present
+                    </option>
+
+                    <option value="Absent"
+                        {% if record[4] == 'Absent' %}selected{% endif %}>
+                        Absent
+                    </option>
+
+                </select>
+
+                <button type="submit" class="update-btn">
+                    Update Attendance
+                </button>
+
+                <a href="{{ url_for('attendance') }}"
+                   class="cancel-btn">
+                    Cancel
+                </a>
+
+            </form>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

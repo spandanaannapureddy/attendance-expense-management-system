@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add_attendance</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='add_attendance.css')}}">
+</head>
+<body>
+    <h2>Mark Attendance</h2>
+    <form class="attendance-form" action="/save_attendance" method="POST">
+        <label>Student ID</label>
+        <input type="text" name="student_id" placeholder="Enter Student ID" required>
+        <label>Date</label>
+        <input type="date" name="attendance_date" placeholder="Enter Date" required>
+        <label>Status</label>
+        <br>
+        <select name="status" required>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+        </select>
+        <button type="submit">Save Attendance</button>
+    </form>
+    {% include 'notification.html' %}
+</body>
+</html>

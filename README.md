@@ -64,6 +64,10 @@ The main aim of this project is to make student record management easier and mor
 
 **Live Website:** [Attendance & Expense Management System](https://attendance-expense-management-system.onrender.com)
 
+## Demo Login
+Username: admin
+Password: admin123
+
 ## What I Learned
 
 While developing this project, I learned how to build a web application using Flask, connect Python with SQLite, manage project files using Git and GitHub, and deploy a website using Render.

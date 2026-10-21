@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS attendance(
   student_id TEXT NOT NULL,
   attendance_date TEXT NOT NULL,
   status TEXT CHECK(status IN ('Present','Absent')) NOT NULL,
-  FOREIGN KEY(student_id) REFERENCES students(student_id)
+  FOREIGN KEY(student_id) REFERENCES students(student_id),
   UNIQUE (student_id,attendance_date)
   )
   """)

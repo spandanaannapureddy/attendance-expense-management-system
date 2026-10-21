@@ -1,4 +1,5 @@
 from flask import Flask,render_template,request,redirect,url_for,session,flash
+import database
 from student import add_student,view_students,delete_student,update_student
 from attendance import mark_attendance,view_attendance,delete_attendance,update_attendance
 from expense import add_expense,view_expense,delete_expense,update_expense

@@ -1,8 +1,8 @@
-import sqlite3
+from database import get_connection
 
 
 def search_attendance(keyword):
-    conn = sqlite3.connect("attendance_expense.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""

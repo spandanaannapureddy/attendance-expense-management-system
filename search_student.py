@@ -1,12 +1,12 @@
-import sqlite3
+from database import get_connection
 
 
 def search_students(keyword):
-    conn = sqlite3.connect("attendance_expense.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT *
+        SELECT id, student_id, name, branch, year, semester, email, phone
         FROM students
         WHERE CAST(student_id AS TEXT) LIKE ?
            OR name LIKE ?

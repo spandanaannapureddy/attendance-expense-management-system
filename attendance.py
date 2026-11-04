@@ -12,13 +12,19 @@ calculate_percentage()
 '''
 
 import sqlite3
+from datetime import date
+from database import get_connection
 
 
 def mark_attendance(student_id, attendance_date, status):
-    conn = sqlite3.connect("attendance_expense.db", timeout=10)
+    conn = get_connection()
     cursor = conn.cursor()
 
     try:
+        try:
+            date.fromisoformat(attendance_date or "")
+        except ValueError:
+            return "Please enter a valid attendance date"
         # Validate attendance status
         if status not in ("Present", "Absent"):
             return "Invalid attendance status"
@@ -49,7 +55,7 @@ def mark_attendance(student_id, attendance_date, status):
         """, (student_id, attendance_date, status))
 
         conn.commit()
-        return "Attendance marked successfully"
+        return "Attendance Marked Successfully"
 
     except sqlite3.IntegrityError:
         conn.rollback()
@@ -61,15 +67,14 @@ def mark_attendance(student_id, attendance_date, status):
         if "locked" in str(e).lower():
             return "Database is busy. Please try again"
     
-        return "Attendance Marked Successfully"
-        
-        conn.commit()
+        return "Unable to save attendance. Please try again"
+    finally:
         conn.close()
 #mark_attendance()
 
 def view_attendance():
     
-    conn=sqlite3.connect("attendance_expense.db")
+    conn=get_connection()
     cursor=conn.cursor()
     
     cursor.execute("""
@@ -91,11 +96,11 @@ def view_attendance():
 #view_attendance()
 def search_attendance():
     
-    conn=sqlite3.connect("attendance_expense.db")
+    conn=get_connection()
     cursor=conn.cursor()
     
     try:
-        student_id=int(input("Enter Student ID: "))
+        student_id=input("Enter Student ID: ").strip()
     except ValueError:
         print("Please Enter a valid Student ID")
         conn.close()
@@ -103,13 +108,13 @@ def search_attendance():
     
     cursor.execute("""
             SELECT attendance.id,
-                   students.id,
+                   students.student_id,
                    students.name,
                    attendance.attendance_date,
                    attendance.status
             FROM attendance
             JOIN students
-            ON attendance.student_id=students.id
+            ON attendance.student_id=students.student_id
             WHERE attendance.student_id=?""",(student_id,))
     records=cursor.fetchall()
     
@@ -130,7 +135,7 @@ def search_attendance():
 
 def delete_attendance(attendance_id):
     
-    conn=sqlite3.connect("attendance_expense.db")
+    conn=get_connection()
     cursor=conn.cursor()
     
     cursor.execute("DELETE FROM attendance WHERE id=?",(attendance_id,))
@@ -141,7 +146,7 @@ def delete_attendance(attendance_id):
 
 def attendance_percentage():
     
-    conn=sqlite3.connect("attendance_expense.db")
+    conn=get_connection()
     cursor=conn.cursor()
     
     student_id=int(input("Enter Student ID: "))
@@ -158,15 +163,20 @@ def attendance_percentage():
         print('No Attendance Records Found')
 #attendance_percentage()
 def update_attendance(attendance_id, attendance_date, status):
-
-    conn = sqlite3.connect("attendance_expense.db")
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        UPDATE attendance
-        SET attendance_date=?, status=?
-        WHERE id=?
-    """, (attendance_date, status, attendance_id))
-
-    conn.commit()
-    conn.close()
+    conn = get_connection()
+    try:
+        try:
+            date.fromisoformat(attendance_date or "")
+        except ValueError:
+            return "Please enter a valid attendance date"
+        if status not in ("Present", "Absent"):
+            return "Invalid attendance status"
+        conn.execute("UPDATE attendance SET attendance_date=?, status=? WHERE id=?",
+                     (attendance_date, status, attendance_id))
+        conn.commit()
+        return "Attendance updated successfully"
+    except sqlite3.IntegrityError:
+        conn.rollback()
+        return "Attendance already exists for this student on that date"
+    finally:
+        conn.close()

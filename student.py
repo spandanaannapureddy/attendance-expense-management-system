@@ -9,12 +9,14 @@ search_student()
 delete_student()'''
 
 import sqlite3
+from database import get_connection
+from werkzeug.security import generate_password_hash
 
 def add_student(student_id, name, branch, year, semester, email, phone, password):
     conn = None
 
     try:
-        conn = sqlite3.connect("attendance_expense.db", timeout=10)
+        conn = get_connection()
         cursor = conn.cursor()
 
         # Check whether Student ID already exists
@@ -27,15 +29,15 @@ def add_student(student_id, name, branch, year, semester, email, phone, password
             return False, "Student ID already exists!"
 
         # Validate required fields
-        if not student_id or not name or not branch:
-            return False, "Student ID, Name and Branch are required."
+        if not all((student_id, name, branch, year, semester, password)):
+            return False, "Student ID, Name, Branch, Year, Semester, and Password are required."
 
         # Insert student
         cursor.execute("""
             INSERT INTO students
             (student_id, name, branch, year, semester, email, phone, password)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (student_id, name, branch, year, semester, email, phone, password))
+        """, (student_id, name, branch, year, semester, email, phone, generate_password_hash(password)))
 
         conn.commit()
         return True, "Student added successfully!"
@@ -61,26 +63,26 @@ def add_student(student_id, name, branch, year, semester, email, phone, password
 #add_student()
 
 def view_students():
-    conn=sqlite3.connect("attendance_expense.db")
+    conn=get_connection()
     cursor=conn.cursor()
     
-    cursor.execute("SELECT * FROM students")
+    cursor.execute("SELECT id, student_id, name, branch, year, semester, email, phone FROM students")
     students=cursor.fetchall()
     conn.close()
     return students
 #view_students()
 
 def search_student():
-    conn=sqlite3.connect("attendance_expense.db")
+    conn=get_connection()
     cursor=conn.cursor()
     
     try:
-        student_id=int(input('Enter student ID: '))
+        student_id=input('Enter student ID: ').strip()
     except ValueError:
         print("Please enter a valid Student ID.")
         return
     
-    cursor.execute("SELECT * FROM students WHERE id=?",(student_id,))
+    cursor.execute("SELECT id, student_id, name, branch, year, semester, email, phone FROM students WHERE student_id=?",(student_id,))
     student=cursor.fetchone()
     
     if student:
@@ -96,30 +98,30 @@ def search_student():
 #search_student()
 def delete_student(student_id):
     
-    conn=sqlite3.connect("attendance_expense.db")
-    cursor=conn.cursor()
-    cursor.execute("DELETE FROM students WHERE student_id=?",(student_id,))
-    conn.commit()
-    conn.close()
+    conn=get_connection()
+    try:
+        cursor=conn.cursor()
+        cursor.execute("DELETE FROM attendance WHERE student_id=?", (student_id,))
+        cursor.execute("DELETE FROM expenses WHERE student_id=?", (student_id,))
+        cursor.execute("DELETE FROM students WHERE student_id=?",(student_id,))
+        conn.commit()
+        return cursor.rowcount > 0
+    finally:
+        conn.close()
 
 #delete_student()
 
 def update_student(student_id, name, branch, year, semester, email, phone, password):
 
-    conn = sqlite3.connect("attendance_expense.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
-    cursor.execute("""
-        UPDATE students
-        SET name=?,
-            branch=?,
-            year=?,
-            semester=?,
-            email=?,
-            phone=?,
-            password=?
-        WHERE student_id=?
-    """, (name, branch, year, semester, email, phone, password, student_id))
+    if password:
+        cursor.execute("""UPDATE students SET name=?, branch=?, year=?, semester=?, email=?, phone=?, password=? WHERE student_id=?""",
+                       (name, branch, year, semester, email, phone, generate_password_hash(password), student_id))
+    else:
+        cursor.execute("""UPDATE students SET name=?, branch=?, year=?, semester=?, email=?, phone=? WHERE student_id=?""",
+                       (name, branch, year, semester, email, phone, student_id))
 
     conn.commit()
     conn.close()

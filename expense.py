@@ -8,12 +8,20 @@ delete_expense()
 total_expense()'''
 
 import sqlite3
+from datetime import date
+from database import get_connection
 #from datetime import date
 def add_expense(student_id, category, amount, expense_date):
-    conn = sqlite3.connect("attendance_expense.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     try:
+        if not student_id or not category or not expense_date:
+            return False, "Student, category, and date are required!"
+        try:
+            date.fromisoformat(expense_date)
+        except (TypeError, ValueError):
+            return False, "Please enter a valid expense date!"
         # Check whether student exists
         cursor.execute(
             "SELECT student_id FROM students WHERE student_id = ?",
@@ -67,7 +75,7 @@ def add_expense(student_id, category, amount, expense_date):
 #add_expense()
 
 def view_expense():
-    conn=sqlite3.connect("attendance_expense.db")
+    conn=get_connection()
     cursor=conn.cursor()
     
     cursor.execute("""
@@ -90,11 +98,11 @@ def view_expense():
     
 def search_expense():
     
-    conn=sqlite3.connect("attendance_expense.db")
+    conn=get_connection()
     cursor=conn.cursor()
     
     try:
-        student_id=int(input("Enter Student ID: "))
+        student_id=input("Enter Student ID: ").strip()
     except ValueError:
         print("Please Enter a valid Student ID")
         conn.close()
@@ -106,11 +114,10 @@ def search_expense():
                    students.name,
                    expenses.category,
                    expenses.amount,
-                   expenses.expense_date,
-                   expenses.description
+                   expenses.expense_date
         FROM expenses
         JOIN students
-        ON expenses.student_id=students.id
+        ON expenses.student_id=students.student_id
         WHERE expenses.student_id=?""",(student_id,))
     records=cursor.fetchall()
     
@@ -129,7 +136,7 @@ def search_expense():
 
 def delete_expense(expense_id):
     
-    conn=sqlite3.connect("attendance_expense.db")
+    conn=get_connection()
     cursor=conn.cursor()
     cursor.execute("DELETE FROM expenses WHERE id=?",(expense_id,))
     conn.commit()
@@ -138,7 +145,7 @@ def delete_expense(expense_id):
     
 def total_expense():
     
-    conn=sqlite3.connect("attendance_expense.db")
+    conn=get_connection()
     cursor=conn.cursor()
     
     student_id=int(input("Enter Student ID: "))
@@ -160,26 +167,31 @@ def total_expense():
     
 #total_expense()  
 def update_expense(expense_id, student_id, category, amount, expense_date):
-    conn = sqlite3.connect("attendance_expense.db")
+    conn = get_connection()
     cursor = conn.cursor()
-
-    cursor.execute(
-        "SELECT * FROM students WHERE student_id=?",
-        (student_id,)
-    )
-    student = cursor.fetchone()
-
-    if not student:
+    try:
+        if not student_id or not category or not expense_date:
+            return "Student, category, and date are required"
+        try:
+            date.fromisoformat(expense_date)
+        except (TypeError, ValueError):
+            return "Please enter a valid expense date"
+        try:
+            amount = float(amount)
+        except (TypeError, ValueError):
+            return "Please enter a valid amount"
+        if amount <= 0:
+            return "Amount must be greater than zero"
+        if not cursor.execute("SELECT 1 FROM students WHERE student_id=?", (student_id,)).fetchone():
+            return "Student Not Found"
+        cursor.execute("UPDATE expenses SET student_id=?, category=?, amount=?, expense_date=? WHERE id=?",
+                       (student_id, category, amount, expense_date, expense_id))
+        if cursor.rowcount == 0:
+            return "Expense not found"
+        conn.commit()
+        return "Expense Updated Successfully"
+    except sqlite3.Error:
+        conn.rollback()
+        return "Unable to update expense. Please try again"
+    finally:
         conn.close()
-        return "Student Not Found"
-
-    cursor.execute("""
-        UPDATE expenses
-        SET student_id=?, category=?, amount=?, expense_date=?
-        WHERE id=?
-    """, (student_id, category, amount, expense_date, expense_id))
-
-    conn.commit()
-    conn.close()
-
-    return "Expense Updated Successfully"

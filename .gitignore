@@ -5,3 +5,4 @@ venv/
 .env
 .vscode/
 attendance_expense.db
+instance/

@@ -46,10 +46,10 @@ The main aim of this project is to make student record management easier and mor
    pip install -r requirements.txt
    ```
 
-4. Create the database tables:
+4. Create the database tables (stored in the `instance` folder by default):
 
    ```bash
-   python -c "import database; print('Database initialized successfully!')"
+   python database.py
    ```
 
 5. Run the application:
@@ -64,9 +64,17 @@ The main aim of this project is to make student record management easier and mor
 
 **Live Website:** [Attendance & Expense Management System](https://attendance-expense-management-system.onrender.com)
 
-## Demo Login
-Username: admin
-Password: admin123
+## Configuration
+
+The application uses SQLite. Set `DATABASE_PATH` to a persistent writable location when deploying (for example, a mounted persistent disk); otherwise the database is stored at `instance/attendance_expense.db` beside the application. The app creates or upgrades its tables automatically at startup.
+
+Set these environment variables for deployment:
+
+* `SECRET_KEY`: a long random secret used to sign sessions.
+* `ADMIN_USERNAME` and `ADMIN_PASSWORD`: the administrator login. The defaults (`admin` / `admin123`) are for local demonstration only and should be replaced before deployment.
+* `DATABASE_PATH`: optional full path to the SQLite database file.
+
+Student passwords are stored as hashes. Older databases with plain text passwords continue to work; a password is converted to a hash after the student's next successful login.
 
 ## What I Learned
 

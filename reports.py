@@ -8,10 +8,12 @@ expense_report()
 monthly_report()'''
 
 import sqlite3
+from datetime import date
+from database import get_connection
 
 
 def total_students():
-    conn = sqlite3.connect("attendance_expense.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("SELECT COUNT(*) FROM students")
@@ -22,10 +24,10 @@ def total_students():
 
 
 def present_today():
-    conn = sqlite3.connect("attendance_expense.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT COUNT(*) FROM attendance WHERE status='Present'")
+    cursor.execute("SELECT COUNT(*) FROM attendance WHERE attendance_date=? AND status='Present'", (date.today().isoformat(),))
     present = cursor.fetchone()[0]
 
     conn.close()
@@ -33,7 +35,7 @@ def present_today():
 
 
 def total_expenses():
-    conn = sqlite3.connect("attendance_expense.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("SELECT SUM(amount) FROM expenses")
@@ -47,7 +49,7 @@ def total_expenses():
 
 
 def attendance_report():
-    conn = sqlite3.connect("attendance_expense.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -56,10 +58,10 @@ def attendance_report():
             students.name,
             SUM(CASE WHEN attendance.status='Present' THEN 1 ELSE 0 END) AS present,
             SUM(CASE WHEN attendance.status='Absent' THEN 1 ELSE 0 END) AS absent,
-            ROUND(
+            COALESCE(ROUND(
                 SUM(CASE WHEN attendance.status='Present' THEN 1 ELSE 0 END) * 100.0 /
-                COUNT(attendance.id),2
-            ) AS percentage
+                NULLIF(COUNT(attendance.id), 0), 2
+            ), 0) AS percentage
 
         FROM students
 
@@ -76,7 +78,7 @@ def attendance_report():
 
 
 def expense_report():
-    conn = sqlite3.connect("attendance_expense.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
